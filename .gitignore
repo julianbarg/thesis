@@ -274,3 +274,9 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+# Custom
+main.css
+main.tmp
+main.html
+main*.html
