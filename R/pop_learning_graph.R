@@ -98,11 +98,11 @@ data$Source = "Historic"
 data_combined <- bind_rows(data_new, data)
 
 caption_3 = "
-Blue line: line of best fit, quadratic, with confidence interval.
+Blue line: \t\tLine of best fit, quadratic, with confidence interval.
 
-Source (new data):\t\thttps://github.com/julianbarg/oildata
+Source (new):\t\thttps://github.com/julianbarg/oildata
 
-Source (historic data):\thttp://www.api.org/environment-health-and-safety/clean-water/oil-spill-prevention-and-response/\n\t~/media/93371EDFB94C4B4D9C6BBC766F0C4A40.ashx, p. 38"
+Source (historic):\thttp://www.api.org/environment-health-and-safety/clean-water/oil-spill-prevention-and-response/\n\t\t\t\t~/media/93371EDFB94C4B4D9C6BBC766F0C4A40.ashx, p. 38"
 
 data_combined %>%
     ggplot(aes(x=year, y=value)) +
@@ -118,3 +118,19 @@ data_combined %>%
           plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
 
 ggsave("illustrations/population_learning_3.png", width = 9, height = 6)
+
+data_combined %>%
+    filter(!(Source =="New" & year <= 2007)) %>%
+    ggplot(aes(x=year, y=value)) +
+    facet_wrap(~ commodity) +
+    geom_point(aes(shape=Source, color=Source)) +
+    geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
+    scale_y_continuous(limits=c(0, NA), oob=scales::rescale_none) +
+    labs(x = "Year", 
+         y = "Bbl spilled per Billion Barrel-Miles Transport", 
+         caption = caption_3) +
+    theme(strip.text = element_text(size=12, family = "Times New Roman"), 
+          axis.title = element_text(size=12, family = "Times New Roman"),
+          plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
+
+ggsave("illustrations/population_learning_4.png", width = 8.5, height = 6)
