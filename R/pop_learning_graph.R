@@ -18,9 +18,9 @@ data <- data %>%
     mutate(commodity = recode(commodity, !!! recode_key))
 
 caption_1 = "
-Blue line: line of best fit, quadratic, with confidence interval.
+Blue line: \tLine of best fit, quadratic, with confidence interval.
 
-Source: http://www.api.org/environment-health-and-safety/clean-water/oil-spill-prevention-and-response/\n~/media/93371EDFB94C4B4D9C6BBC766F0C4A40.ashx, p. 38"
+Source:\t\thttp://www.api.org/environment-health-and-safety/clean-water/oil-spill-prevention-\n\t\t\tand-response/~/media/93371EDFB94C4B4D9C6BBC766F0C4A40.ashx, p. 38"
 
 data %>%
     ggplot(aes(x=year, y=value)) +
@@ -33,9 +33,9 @@ data %>%
              caption = caption_1) +
         theme(strip.text = element_text(size=12, family = "Times New Roman"), 
               axis.title = element_text(size=12, family = "Times New Roman"),
-              plot.caption = element_text(size=12, family = "Times New Roman"))
+              plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
 
-ggsave("illustrations/population_learning_1.png", width = 9, height = 6)
+ggsave("illustrations/population_learning_1.png", width = 7.5, height = 5)
 
 
 
@@ -70,9 +70,9 @@ recode_key_2 <- c(crude = "Crude",
 data_new <- mutate(data_new, commodity = recode(commodity, !!! recode_key_2))
 
 caption_2 = "
-Blue line: line of best fit, quadratic, with confidence interval.
+Blue line: \tLine of best fit, quadratic, with confidence interval.
 
-Source: https://github.com/julianbarg/oildata"
+Source: \t\thttps://github.com/julianbarg/oildata"
 
 data_new %>%
     ggplot(aes(x=year, y=value)) +
@@ -85,9 +85,9 @@ data_new %>%
          caption = caption_2) +
     theme(strip.text = element_text(size=12, family = "Times New Roman"), 
           axis.title = element_text(size=12, family = "Times New Roman"),
-          plot.caption = element_text(size=12, family = "Times New Roman"))
+          plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
 
-ggsave("illustrations/population_learning_2.png", width = 9, height = 6)
+ggsave("illustrations/population_learning_2.png", width = 7.5, height = 5)
 
 
 
@@ -117,18 +117,26 @@ data_combined %>%
           axis.title = element_text(size=12, family = "Times New Roman"),
           plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
 
-ggsave("illustrations/population_learning_3.png", width = 9, height = 6)
+ggsave("illustrations/population_learning_3.png", width = 7.5, height = 5)
+
+caption_4 = "
+Blue line: \t\tLocal regression (Loess), with confidence interval.
+
+Source (new):\t\thttps://github.com/julianbarg/oildata
+
+Source (historic):\thttp://www.api.org/environment-health-and-safety/clean-water/oil-spill-prevention-\n\t\t\t\tand-response/~/media/93371EDFB94C4B4D9C6BBC766F0C4A40.ashx, p. 38"
 
 data_combined %>%
     filter(!(Source =="New" & year <= 2007)) %>%
     ggplot(aes(x=year, y=value)) +
     facet_wrap(~ commodity) +
     geom_point(aes(shape=Source, color=Source)) +
-    geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
+    geom_smooth() +
+    # geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
     scale_y_continuous(limits=c(0, NA), oob=scales::rescale_none) +
     labs(x = "Year", 
          y = "Bbl spilled per Billion Barrel-Miles Transport", 
-         caption = caption_3) +
+         caption = caption_4) +
     theme(strip.text = element_text(size=12, family = "Times New Roman"), 
           axis.title = element_text(size=12, family = "Times New Roman"),
           plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
