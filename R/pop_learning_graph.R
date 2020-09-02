@@ -76,16 +76,16 @@ Source: \t\thttps://github.com/julianbarg/oildata"
 
 data_new %>%
     ggplot(aes(x=year, y=value)) +
-    facet_wrap(~ commodity) +
-    geom_point() +
-    geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
-    scale_y_continuous(limits=c(0, NA), oob=scales::rescale_none) +
-    labs(x = "Year", 
-         y = "Bbl spilled per Billion Barrel-Miles Transport", 
-         caption = caption_2) +
-    theme(strip.text = element_text(size=12, family = "Times New Roman"), 
-          axis.title = element_text(size=12, family = "Times New Roman"),
-          plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
+        facet_wrap(~ commodity) +
+        geom_point() +
+        geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
+        scale_y_continuous(limits=c(0, NA), oob=scales::rescale_none) +
+        labs(x = "Year", 
+             y = "Bbl spilled per Billion Barrel-Miles Transport", 
+             caption = caption_2) +
+        theme(strip.text = element_text(size=12, family = "Times New Roman"), 
+              axis.title = element_text(size=12, family = "Times New Roman"),
+              plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
 
 ggsave("illustrations/population_learning_2.png", width = 7.5, height = 5)
 
@@ -106,16 +106,16 @@ Source (historic):\thttp://www.api.org/environment-health-and-safety/clean-water
 
 data_combined %>%
     ggplot(aes(x=year, y=value)) +
-    facet_wrap(~ commodity) +
-    geom_point(aes(shape=Source, color=Source)) +
-    geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
-    scale_y_continuous(limits=c(0, NA), oob=scales::rescale_none) +
-    labs(x = "Year", 
-         y = "Bbl spilled per Billion Barrel-Miles Transport", 
-         caption = caption_3) +
-    theme(strip.text = element_text(size=12, family = "Times New Roman"), 
-          axis.title = element_text(size=12, family = "Times New Roman"),
-          plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
+        facet_wrap(~ commodity) +
+        geom_point(aes(shape=Source, color=Source)) +
+        geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
+        scale_y_continuous(limits=c(0, NA), oob=scales::rescale_none) +
+        labs(x = "Year", 
+             y = "Bbl spilled per Billion Barrel-Miles Transport", 
+             caption = caption_3) +
+        theme(strip.text = element_text(size=12, family = "Times New Roman"), 
+              axis.title = element_text(size=12, family = "Times New Roman"),
+              plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
 
 ggsave("illustrations/population_learning_3.png", width = 7.5, height = 5)
 
@@ -129,11 +129,34 @@ Source (historic):\thttp://www.api.org/environment-health-and-safety/clean-water
 data_combined %>%
     filter(!(Source =="New" & year <= 2007)) %>%
     ggplot(aes(x=year, y=value)) +
-    facet_wrap(~ commodity) +
-    geom_point(aes(shape=Source, color=Source)) +
-    geom_smooth() +
-    # geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
-    scale_y_continuous(limits=c(0, NA), oob=scales::rescale_none) +
+        facet_wrap(~ commodity) +
+        geom_point(aes(shape=Source, color=Source)) +
+        geom_smooth() +
+        # geom_smooth(method="lm", formula = y ~ poly(x, 2)) +
+        scale_y_continuous(limits=c(0, NA), oob=scales::rescale_none) +
+        labs(x = "Year", 
+             y = "Bbl spilled per Billion Barrel-Miles Transport", 
+             caption = caption_4) +
+        theme(strip.text = element_text(size=12, family = "Times New Roman"), 
+              axis.title = element_text(size=12, family = "Times New Roman"),
+              plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
+
+ggsave("illustrations/population_learning_4.png", width = 7.5, height = 5)
+
+caption_4 = "
+Blue line: \t\tQuadratic curve of best fit, with confidence interval.
+
+Source (new):\t\thttps://github.com/julianbarg/oildata
+
+Source (historic):\thttp://www.api.org/environment-health-and-safety/clean-water/oil-spill-prevention-\n\t\t\t\tand-response/~/media/93371EDFB94C4B4D9C6BBC766F0C4A40.ashx, p. 38"
+
+data_combined %>%
+    filter(!(Source =="New" & year <= 2007)) %>%
+    filter(commodity == "Refined") %>%
+    ggplot(aes(x=year, y=value)) +
+        facet_wrap(~ commodity) +
+        geom_point(aes(shape=Source, color=Source)) +
+        geom_smooth(method = "lm", formula = y ~ poly(x, 2)) +
     labs(x = "Year", 
          y = "Bbl spilled per Billion Barrel-Miles Transport", 
          caption = caption_4) +
@@ -141,4 +164,4 @@ data_combined %>%
           axis.title = element_text(size=12, family = "Times New Roman"),
           plot.caption = element_text(size=12, family = "Times New Roman", hjust=0))
 
-ggsave("illustrations/population_learning_4.png", width = 7.5, height = 5)
+ggsave("illustrations/population_learning_5.png", width = 7.5, height = 5)
