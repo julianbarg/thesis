@@ -43,26 +43,23 @@ ggsave("illustrations/population_learning_1.png", width = 7.5, height = 5)
 
 library(oildata)
 
-pipelines_y_c <- pipelines %>%
+data_new <- pipelines_ungrouped %>%
     filter(on_offshore == "onshore") %>%
     filter(commodity %in% c("crude", "rpp")) %>%
+    select(ID, year, commodity, incidents_volume, estimate_volume_all) %>%
     group_by(year, commodity) %>%
-    summarize(!!! oildata::pipelines_consolidation)
-
-y_c_total <- pipelines_y_c %>%
-    group_by(year) %>%
-    summarize(incidents_volume = sum(incidents_volume), 
-              estimate_volume_all = sum(estimate_volume_all))
-y_c_total$commodity <- "total"
-
-data_new <- bind_rows(pipelines_y_c, y_c_total) %>%
-    mutate(volume_per_volume = incidents_volume/estimate_volume_all) %>%
-    pivot_longer(cols = -c(year, commodity), names_to = "variable", values_to = "value")
-
-data_new <- filter(data_new, variable == "volume_per_volume")
-
-data_new <- select(data_new, -variable)
-data_new$value <- data_new$value * 1000000000
+    summarize(incidents_volume = sum(incidents_volume, na.rm = T),
+              estimate_volume_all = sum(estimate_volume_all, na.rm = T)) %>%
+    pivot_wider(names_from = commodity, 
+                values_from = c(incidents_volume, estimate_volume_all)) %>%
+    mutate(incidents_volume_total = incidents_volume_crude + incidents_volume_rpp, 
+           estimate_volume_all_total = estimate_volume_all_crude + 
+               estimate_volume_all_rpp) %>%
+    pivot_longer(matches("crude$|rpp$|total$"),
+                 names_to = c(".value", "commodity"),
+                 # Fortunately, goes to the last underscore bc. greedy first .* but could be more explicit, i.e., ""(.*)_([^_]*)"
+                 names_pattern = "(.*)_(.*)") %>%
+    mutate(value = incidents_volume / estimate_volume_all * 1e9)
 
 recode_key_2 <- c(crude = "Crude", 
                   rpp = "Refined", 
