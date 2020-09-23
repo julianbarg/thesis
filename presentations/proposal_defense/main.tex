@@ -1,0 +1,79 @@
+\documentclass[notes]{beamer}
+%\documentclass[notes=only]{beamer}
+%\documentclass{beamer}
+
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{natbib}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{makecell}
+\newcolumntype{C}{>{\Centering\arraybackslash}X}
+\usepackage[USenglish]{babel}
+\captionsetup[figure]{font=tiny}
+
+\newcommand*{\tabindent}{\hspace{3mm}}
+
+\usepackage{pgfpages}
+\setbeameroption{show notes on second screen=left} % 
+
+\graphicspath{ {../../illustrations/} }
+
+\setbeamercolor{author}{fg=white} 
+\setbeamercolor{title}{fg=white} 
+\setbeamercolor{date}{fg=white} 
+\setbeamercolor{institute}{fg=white} 
+
+\logo{\includegraphics[height=1.5cm]{ivey.jpg}}
+\setbeamertemplate{footline}[frame number]
+
+\title{Proposal Defense}
+\subtitle{Greenwashing and Learning in the Pipeline Industry}
+\author{Julian Barg}
+\date{September 22, 2020}
+\institute[Inst.]{Ivey Business School}
+
+\definecolor{ivey-green}{HTML}{034638}
+\definecolor{ivey-purple}{HTML}{582C83}
+
+\AtBeginSection[]
+{
+	\begin{frame}
+		\frametitle{Table of Contents}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+
+\begin{document}
+	{\setbeamercolor{background canvas}{bg=ivey-purple}
+		\frame{\titlepage}  
+	}
+
+	\begin{frame}{Outline of talk}
+		\tableofcontents
+		\begin{itemize}
+			\item Refresher (very brief)
+			\item Framework
+			\item Phenomenon
+			\item Framing/Theories
+			\item Papers
+			\item Timelines
+		\end{itemize}
+		\note{I feel a little bit like I am at a wedding where there are two separate families that you need to bridge. So I am going to do that by spoon-feeding you a few select insights on the two literatures. I very much designed this presentation as a series of questions--which I may forget if I get carried away.}
+	\end{frame}
+
+	\input{sections/introduction}
+	\input{sections/theories}
+	\input{sections/papers}
+	\input{sections/timelines}
+	\input{sections/conclusion}
+	
+	\begin{frame}[allowframebreaks]
+		\tiny
+		\bibliography{../../bibliography}
+		\bibliographystyle{apalike}
+	\end{frame}
+\end{document}
