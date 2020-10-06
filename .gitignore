@@ -282,3 +282,4 @@ main.html
 main*.html
 .Rproj.user
 *_old.*
+*.sublime*
